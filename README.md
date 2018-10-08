@@ -17,6 +17,14 @@ Folder structuur:
   - Models
   - Prefabs
   - Sprites
+  - Post Processing
   
 - Scripts
   - Alle scripts
+  
+- Terrains
+  - Alle terrains
+  
+  
+- Standard Assets
+  - Default assets van Unity zoals first person controller, environment, particles, etc.
