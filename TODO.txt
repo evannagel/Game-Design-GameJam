@@ -1,0 +1,24 @@
+parkour game
+	- bank overval -> je moet de kluis overvallen
+	- cutscene
+	- Je komt de bank binnen en moet medewerkers van de bank afleiden dmv de omgeving
+	- optioneel:
+		- Wegkomen zodra je bij de kluis bent
+		
+		
+		
+
+- Draden doorknippen
+- Cameras
+	- Lasers
+- Pasje gebruiken door kamers heen te komen
+	- Main objective : Overval de bank	
+		- Side objectives : Guidance om bij de kluis te komen
+
+- Reference : Payday 2
+	
+
+
+
+
+
