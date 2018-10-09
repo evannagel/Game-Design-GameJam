@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+    public bool isSearched = false;
+
+
+
 	// Use this for initialization
 	void Start () {
 		
@@ -11,6 +15,6 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 }
