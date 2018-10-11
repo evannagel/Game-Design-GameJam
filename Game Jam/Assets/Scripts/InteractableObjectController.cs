@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PickupItemController : MonoBehaviour {
+public class InteractableObjectController : MonoBehaviour {
 
-    public bool showPickupSign = false;
     public Canvas actionCanvas;
-
 
     private Camera cam;
     private GameObject interactedObject;
@@ -26,49 +24,51 @@ public class PickupItemController : MonoBehaviour {
     void Update()
     {
         CheckForRaycastHit();
-
     }
 
     private void CheckForRaycastHit()
     {
-        int groupedLayerMasks = LayerMask.GetMask("Item");
+        int groupedLayerMasks = LayerMask.GetMask("Item", "Door", "Key");
 
         RaycastHit hit;
-        if (Physics.Raycast(cam.transform.position, cam.transform.TransformDirection(Vector3.forward), out hit, 2f, groupedLayerMasks))
+        if (Physics.Raycast(cam.transform.position, cam.transform.TransformDirection(Vector3.forward), out hit, 5f, groupedLayerMasks))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-
 
             string layerName = LayerMask.LayerToName(hit.transform.gameObject.layer);
             Sprite actionSprite = GetActionSprite(layerName);
 
+            interactedObject = hit.transform.gameObject;
+
             switch (layerName)
             {
+                case "Key":
+                    // Fallthrough
                 case "Item":
                     Debug.DrawRay(cam.transform.position, cam.transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
-                    showPickupSign = true;
-                    interactedObject = hit.transform.gameObject;
                     CheckForPickup();
-                    actionCanvas.transform.GetChild(0).GetComponent<Image>().sprite = actionSprite;
-                    actionCanvas.enabled = true;
+                    ActivateCanvas(actionSprite);
+                    break;
+                case "Door":
+                    Debug.DrawRay(cam.transform.position, cam.transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
+                    OpenDoor(interactedObject);
+                    ActivateCanvas(actionSprite);
                     break;
                 default:
                     break;
             }
-
-
-
-
-
-
-
         }
         else
         {
-            showPickupSign = false;
             interactedObject = null;
             actionCanvas.enabled = false;
         }
+    }
+
+    private void ActivateCanvas( Sprite sprite )
+    {
+        actionCanvas.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+        actionCanvas.enabled = true;
     }
 
     private void CheckForPickup()
@@ -89,13 +89,19 @@ public class PickupItemController : MonoBehaviour {
         return false;
     }
 
-
-
     private void CheckForClickedObject(GameObject go)
     {
 
     }
 
+    private void OpenDoor(GameObject doorObject)
+    {
+        if (PressesActionKey())
+        {
+            DoorController Door = doorObject.GetComponent<DoorController>();
+            Door.OpenDoor();
+        }
+    }
 
     private Sprite GetActionSprite(string layerName)
     {
@@ -103,9 +109,17 @@ public class PickupItemController : MonoBehaviour {
         switch (layerName)
         {
             case "Item":
+                Debug.Log("Hovering over Item");
                 spriteName = "pickup";
                 break;
-
+            case "Key":
+                Debug.Log("Hovering over Key");
+                spriteName = "key";
+                break;
+            case "Door":
+                Debug.Log("Hovering over Door");
+                spriteName = "door";
+                break;
         }
 
         return Resources.Load<Sprite>("Sprites/" + spriteName); ;
@@ -118,7 +132,6 @@ public class PickupItemController : MonoBehaviour {
 
     public void ClearValues()
     {
-        showPickupSign = false;
         interactedObject = null;
         actionCanvas.enabled = false;
     }
