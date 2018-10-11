@@ -53,11 +53,7 @@ public class Player : MonoBehaviour {
 
             HandlePickup(item);
 
-        } else
-        {
-            Debug.Log(!this.items.Contains(item));
-            Debug.Log(items.Count <= itemsAmount);
-        }
+        } 
     }
 
     public bool HasItem(GameObject item)
@@ -70,8 +66,6 @@ public class Player : MonoBehaviour {
         if (HasItem(item))
         {
             this.items.Remove(item);
-            Debug.Log("removed item : " + item.name);
-
             ItemUIController itemUIController = GameObject.FindObjectOfType<ItemUIController>();
             itemUIController.UpdateUI(items);
         }
