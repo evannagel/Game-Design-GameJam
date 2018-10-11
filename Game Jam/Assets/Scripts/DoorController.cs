@@ -46,6 +46,7 @@ public class DoorController : MonoBehaviour {
             {
                 gameObject.layer = LayerMask.NameToLayer("DoorOpen");
                 open = !open;
+                player.RemoveItem(key);
             }
         }
         else
