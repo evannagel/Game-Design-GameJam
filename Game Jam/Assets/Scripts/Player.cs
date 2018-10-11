@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
 
     public List<GameObject> items { get; set; }
 
-    public int itemsAmount = 4;
+    public int itemsAmount = 6;
 
     [SerializeField]
     private int currentObjectiveNumber = 0;
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour {
 
     public void AddItem(GameObject item)
     {
-        if (!this.items.Contains(item) && items.Count <= itemsAmount)
+        if (!this.items.Contains(item))
         {
             this.items.Add(item);
             ItemUIController itemUIController = GameObject.FindObjectOfType<ItemUIController>();
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour {
 
             HandlePickup(item);
 
-        }
+        } 
     }
 
     public bool HasItem(GameObject item)
@@ -66,8 +66,6 @@ public class Player : MonoBehaviour {
         if (HasItem(item))
         {
             this.items.Remove(item);
-            Debug.Log("removed item : " + item.name);
-
             ItemUIController itemUIController = GameObject.FindObjectOfType<ItemUIController>();
             itemUIController.UpdateUI(items);
         }
@@ -105,9 +103,9 @@ public class Player : MonoBehaviour {
         if(!foundRedKey && !foundGreenKey && !hasKeys && startLookingForCodes)
         {
             if (hasCodeOne && !hasCodeTwo)
-                objectiveUIController.SetText("Find the Cup!");
+                objectiveUIController.SetText("Find Code One!");
             else if (!hasCodeOne && hasCodeTwo)
-                objectiveUIController.SetText("Find the Guitar!");
+                objectiveUIController.SetText("Find Code Two!");
             else if (hasCodeOne && hasCodeTwo)
             {
                 objectiveUIController.SetText("Get to the exit!");
