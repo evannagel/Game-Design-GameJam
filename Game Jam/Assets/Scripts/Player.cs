@@ -102,13 +102,6 @@ public class Player : MonoBehaviour {
 
     public void HandlePickup(GameObject item)
     {
-        if (item.name == "RedKey")
-            foundRedKey = true;
-        else if (item.name == "GreenKey")
-            foundRedKey = true;
-        else if (item.name == "Guitar")
-            foundGuitar = true;
-       
         switch(item.name)
         {
             case "RedKey":
