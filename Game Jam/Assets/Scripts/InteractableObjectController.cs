@@ -58,6 +58,10 @@ public class InteractableObjectController : MonoBehaviour {
                     TradeInteraction(interactedObject);
                     ActivateCanvas(actionSprite);
                     break;
+                case "End":
+                    EndInteraction(interactedObject);
+                    ActivateCanvas(actionSprite);
+                    break;
                 default:
                     break;
             }
@@ -102,6 +106,15 @@ public class InteractableObjectController : MonoBehaviour {
         }
     }
 
+    private void EndInteraction(GameObject endObject)
+    {
+        if (PressesActionKey())
+        {
+            EndController EndController = endObject.GetComponent<EndController>();
+            EndController.CanComplete(player);
+        }
+    }
+
     private void OpenDoor(GameObject doorObject)
     {
         if (PressesActionKey())
@@ -124,6 +137,9 @@ public class InteractableObjectController : MonoBehaviour {
                 break;
             case "DoorOpen":
                 spriteName = "door";
+                break;
+            case "End":
+                spriteName = "pickup";
                 break;
             case "Trade":
                 spriteName = "trade";
