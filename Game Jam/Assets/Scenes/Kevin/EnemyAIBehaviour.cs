@@ -25,10 +25,10 @@ public class EnemyAIBehaviour : MonoBehaviour
 	public int minAngle = -57;
 	public int maxAngle = 57;
 	public Transform playerTransform;
-	public Player player;
 
 	private Vector3 toPlayer;
     private GameObject player;
+	private Player playerCode;
 
     private int nodeCounter = 0;
     private NavMeshAgent enemyAgent;
@@ -36,6 +36,7 @@ public class EnemyAIBehaviour : MonoBehaviour
 	void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+		playerCode = player.GetComponent<Player> ();
         enemyAgent = GetComponent<NavMeshAgent>();
         curState = FSMState.Patrol;
 	}
@@ -58,7 +59,7 @@ public class EnemyAIBehaviour : MonoBehaviour
 	}
 
 	void UpdatePatrolState(){
-		if (player.isHidden) 
+		if (playerCode.isHidden) 
 		{
             //patrol
             enemyAgent.isStopped = true;
@@ -68,7 +69,7 @@ public class EnemyAIBehaviour : MonoBehaviour
             if (enemyAgent.destination == transform.position) { SetNewTarget(wanderPoints[nodeCounter].position); return; }
             if (enemyAgent.remainingDistance <= destinationReachedThreshold) { SetNewTarget(GetNewPointFromList()); }
         }
-		if (!player.isHidden && playerInView)
+		if (!playerCode.isHidden && playerInView)
 		{
             enemyAgent.isStopped = false;
             enemyAgent.SetDestination (toPlayer);
@@ -77,13 +78,13 @@ public class EnemyAIBehaviour : MonoBehaviour
     }
 
     void UpdateChaseState() {
-        if (player.isHidden)
+		if (playerCode.isHidden)
         {
             //patrol
             enemyAgent.isStopped = true;
             curState = FSMState.Patrol;
         }
-        if (!player.isHidden && playerInView)
+		if (!playerCode.isHidden && playerInView)
         {
             enemyAgent.isStopped = false;
             enemyAgent.SetDestination(toPlayer);
