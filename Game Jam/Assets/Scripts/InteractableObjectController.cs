@@ -125,6 +125,9 @@ public class InteractableObjectController : MonoBehaviour {
             case "DoorOpen":
                 spriteName = "door";
                 break;
+            case "Trade":
+                spriteName = "trade";
+                break;
         }
 
         return Resources.Load<Sprite>("Sprites/" + spriteName); ;
