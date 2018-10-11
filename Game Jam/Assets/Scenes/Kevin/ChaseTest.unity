@@ -192,7 +192,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4340129736630792, guid: d471a205198d89b4b9de4598a79770c8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.44
+      value: 1.77
       objectReference: {fileID: 0}
     - target: {fileID: 4340129736630792, guid: d471a205198d89b4b9de4598a79770c8, type: 2}
       propertyPath: m_LocalPosition.z
@@ -322,12 +322,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b0fca783ee33224a8c174e3d1a5869a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wanderPoints: []
+  destinationReachedThreshold: 10
   curState: 0
   curSpeed: 0
   playerInView: 0
   minAngle: -57
   maxAngle: 57
-  playerTransform: {fileID: 940102843}
+  nodeCounter: 0
 --- !u!195 &843308610
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -417,11 +419,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &940102843 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4340129736630792, guid: d471a205198d89b4b9de4598a79770c8,
-    type: 2}
-  m_PrefabInternal: {fileID: 127412069}
 --- !u!1 &1589824943
 GameObject:
   m_ObjectHideFlags: 0

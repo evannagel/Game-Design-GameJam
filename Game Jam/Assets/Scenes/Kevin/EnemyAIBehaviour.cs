@@ -20,10 +20,11 @@ public class EnemyAIBehaviour : MonoBehaviour
     private float destinationReachedThreshold = 10.0f;
 
 	public FSMState curState;
-	public float curSpeed;
 	public bool playerInView;
 	public int minAngle = -57;
 	public int maxAngle = 57;
+	public bool targetFound = false;
+	public float targetLostDistance = 15f;
 
 	private Vector3 toPlayer;
     private GameObject player;
@@ -49,6 +50,15 @@ public class EnemyAIBehaviour : MonoBehaviour
 
         if (Application.isEditor) { DrawRoute(); }
 
+		if (!playerCode.isHidden && playerInView) {
+			targetFound = true;
+		}
+
+		if(playerCode.isHidden || Vector3.Distance(transform.position, playerTransform.position) >= targetLostDistance && !playerInView)
+		{
+			targetFound = false;	
+		}
+
 		switch (curState) 
 		{
 		case FSMState.Patrol:
@@ -61,30 +71,39 @@ public class EnemyAIBehaviour : MonoBehaviour
 	}
 
 	void UpdatePatrolState(){
-		if (playerCode.isHidden) 
-		{
-            //patrol
-			curState = FSMState.Patrol;  
-        }
+
+		if (!targetFound) {
+			if (wanderPoints.Count <= 0) {
+				throw new NullReferenceException ("No wander point registered with this enemy!");
+			}
+			if (enemyAgent.destination == transform.position) {
+				SetNewTarget (wanderPoints [nodeCounter].position);
+				return;
+			}
+			if (enemyAgent.remainingDistance <= destinationReachedThreshold) {
+				SetNewTarget (GetNewPointFromList ());
+			}
+			curState = FSMState.Patrol;
+		} 
+
 		if (!playerCode.isHidden && playerInView)
 		{
+			targetFound = false;
+			transform.LookAt (playerTransform);
 			enemyAgent.SetDestination (playerTransform.position);
 			curState = FSMState.Chase;
-		}
-
-        if (wanderPoints.Count <= 0) { throw new NullReferenceException("No wander point registered with this enemy!"); }
-        if (enemyAgent.destination == transform.position) { SetNewTarget(wanderPoints[nodeCounter].position); return; }
-        if (enemyAgent.remainingDistance <= destinationReachedThreshold) { SetNewTarget(GetNewPointFromList()); }
+		}       
     }
 
     void UpdateChaseState() {
-		if (playerCode.isHidden)
+		if (!targetFound)
         {
-            //patrol
             curState = FSMState.Patrol;
         }
 		if (!playerCode.isHidden && playerInView)
         {
+			targetFound = false;
+			transform.LookAt (playerTransform);
 			enemyAgent.SetDestination(playerTransform.position);
             curState = FSMState.Chase;
         }
@@ -154,7 +173,7 @@ public class EnemyAIBehaviour : MonoBehaviour
 			Debug.DrawRay (enemyToPlayerRay.origin, enemyToPlayerRay.direction*rayRange, Color.blue);
 			RaycastHit hit;
 			if(Physics.Raycast(enemyToPlayerRay, out hit, rayRange)){
-				if (hit.rigidbody.CompareTag ("Player")) {					
+				if (hit.collider.CompareTag ("Player")) {					
 					playerInView = true;
 				} else {
 					playerInView = false;

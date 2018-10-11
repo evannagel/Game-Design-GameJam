@@ -24,9 +24,10 @@ GameObject:
   - component: {fileID: 54920068335464200}
   - component: {fileID: 82929786963043208}
   - component: {fileID: 114884717888590404}
+  - component: {fileID: 136075392877015482}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60,7 +61,6 @@ GameObject:
   - component: {fileID: 4081830030304086}
   - component: {fileID: 33982139202933016}
   - component: {fileID: 23518833002714590}
-  - component: {fileID: 136742610437235318}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -88,7 +88,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1054885077487110}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.55, y: 4.38, z: -35.8}
+  m_LocalPosition: {x: 0, y: 1.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4793269475478216}
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ec5cf00ca181d45a42ba1870e148c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsWalking: 0
+  m_IsWalking: 1
   m_WalkSpeed: 5
   m_RunSpeed: 10
   m_RunstepLenghten: 0.7
@@ -337,8 +337,8 @@ MonoBehaviour:
     lockCursor: 1
   m_UseFovKick: 1
   m_FovKick:
-    Camera: {fileID: 0}
-    originalFov: 0
+    Camera: {fileID: 20192733431579334}
+    originalFov: 60
     FOVIncrease: 3
     TimeToIncrease: 1
     TimeToDecrease: 1
@@ -442,6 +442,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd070848a12f3c4bb787f63b3d09a56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSearched: 0
+  isHidden: 0
 --- !u!114 &114988917747555430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -507,17 +509,17 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1239919331628194}
   m_Enabled: 1
---- !u!136 &136742610437235318
+--- !u!136 &136075392877015482
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1334406448932982}
+  m_GameObject: {fileID: 1054885077487110}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &143056078402123618
