@@ -24,12 +24,11 @@ public class EnemyAIBehaviour : MonoBehaviour
 	public bool playerInView;
 	public int minAngle = -57;
 	public int maxAngle = 57;
-	public Transform playerTransform;
 
 	private Vector3 toPlayer;
     private GameObject player;
 	private Player playerCode;
-
+	private Transform playerTransform;
     private int nodeCounter = 0;
     private NavMeshAgent enemyAgent;
 
@@ -37,6 +36,7 @@ public class EnemyAIBehaviour : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 		playerCode = player.GetComponent<Player> ();
+		playerTransform = player.GetComponent<Transform> ();
         enemyAgent = GetComponent<NavMeshAgent>();
         curState = FSMState.Patrol;
 	}
@@ -62,7 +62,6 @@ public class EnemyAIBehaviour : MonoBehaviour
 		if (playerCode.isHidden) 
 		{
             //patrol
-            enemyAgent.isStopped = true;
 			curState = FSMState.Patrol;
 
             if (wanderPoints.Count <= 0) { throw new NullReferenceException("No wander point registered with this enemy!"); }
@@ -71,8 +70,7 @@ public class EnemyAIBehaviour : MonoBehaviour
         }
 		if (!playerCode.isHidden && playerInView)
 		{
-            enemyAgent.isStopped = false;
-            enemyAgent.SetDestination (toPlayer);
+			enemyAgent.SetDestination (playerTransform.position);
 			curState = FSMState.Chase;
 		}
     }
@@ -81,13 +79,11 @@ public class EnemyAIBehaviour : MonoBehaviour
 		if (playerCode.isHidden)
         {
             //patrol
-            enemyAgent.isStopped = true;
             curState = FSMState.Patrol;
         }
 		if (!playerCode.isHidden && playerInView)
         {
-            enemyAgent.isStopped = false;
-            enemyAgent.SetDestination(toPlayer);
+			enemyAgent.SetDestination(playerTransform.position);
             curState = FSMState.Chase;
         }
     }
@@ -159,7 +155,8 @@ public class EnemyAIBehaviour : MonoBehaviour
 			RaycastHit hit;
 			if(Physics.Raycast(enemyToPlayerRay, out hit, rayRange)){
 				Debug.Log ("hit something");
-				if(hit.collider.CompareTag("Player")){
+				Debug.Log (hit.rigidbody.tag);
+				if(hit.collider.CompareTag("Player")){					
 					playerInView = true;
 				}
 			}
