@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour {
 
+    public GameObject key;
+
     private float smooth = 2.0f;
     private float DoorOpenAngle = 90.0f;
     private float DoorCloseAngle = 0.0f;
     private bool open = false;
-    
+
+    private Player player;
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+    }
+
     //Main function
     void Update()
     {
@@ -31,6 +40,17 @@ public class DoorController : MonoBehaviour {
 
     public void OpenDoor()
     {
-        open = !open;
+        if (key != null && LayerMask.LayerToName(gameObject.layer) == "KeyUse")
+        {
+            if (player.HasItem(key))
+            {
+                gameObject.layer = LayerMask.NameToLayer("DoorOpen");
+                open = !open;
+            }
+        }
+        else
+        {
+            open = !open;
+        }
     }
 }

@@ -28,7 +28,7 @@ public class InteractableObjectController : MonoBehaviour {
 
     private void CheckForRaycastHit()
     {
-        int groupedLayerMasks = LayerMask.GetMask("Item", "DoorOpen", "KeyUse");
+        int groupedLayerMasks = LayerMask.GetMask("Item", "DoorOpen", "KeyUse", "Trade");
 
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.TransformDirection(Vector3.forward), out hit, 5f, groupedLayerMasks))
@@ -42,17 +42,20 @@ public class InteractableObjectController : MonoBehaviour {
 
             switch (layerName)
             {
-                case "KeyUse":
-                    ActivateCanvas(actionSprite);
-                    break;
                 case "Item":
                     Debug.DrawRay(cam.transform.position, cam.transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
                     CheckForPickup();
                     ActivateCanvas(actionSprite);
                     break;
+                case "KeyUse":
+                    // Fallthrough
                 case "DoorOpen":
                     Debug.DrawRay(cam.transform.position, cam.transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
                     OpenDoor(interactedObject);
+                    ActivateCanvas(actionSprite);
+                    break;
+                case "Trade":
+                    TradeInteraction(interactedObject);
                     ActivateCanvas(actionSprite);
                     break;
                 default:
@@ -74,7 +77,7 @@ public class InteractableObjectController : MonoBehaviour {
 
     private void CheckForPickup()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (PressesActionKey())
         {
             PickUpItem();
         }
@@ -90,9 +93,13 @@ public class InteractableObjectController : MonoBehaviour {
         return false;
     }
 
-    private void CheckForClickedObject(GameObject go)
+    private void TradeInteraction(GameObject trader)
     {
-
+        if (PressesActionKey())
+        {
+            TradeController Trader = trader.GetComponent<TradeController>();
+            Trader.TradeWith(player);
+        }
     }
 
     private void OpenDoor(GameObject doorObject)
@@ -113,11 +120,9 @@ public class InteractableObjectController : MonoBehaviour {
                 spriteName = "pickup";
                 break;
             case "KeyUse":
-                Debug.Log("Hovering over Key");
                 spriteName = "key";
                 break;
             case "DoorOpen":
-                Debug.Log("Hovering over Door");
                 spriteName = "door";
                 break;
         }
@@ -127,6 +132,7 @@ public class InteractableObjectController : MonoBehaviour {
 
     void PickUpItem()
     {
+        interactedObject.SetActive(false);
         player.AddItem(interactedObject);
     }
 
