@@ -9,7 +9,7 @@ public class ItemUIController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        ResetImages();
 	}
 	
 	// Update is called once per frame
@@ -17,11 +17,21 @@ public class ItemUIController : MonoBehaviour {
 		
 	}
 
+    public void ResetImages()
+    {
+        foreach(Image image in itemSprites)
+        {
+            image.enabled = false;
+        }
+    }
+
     public void UpdateUI(List<GameObject> items)
     {
+        ResetImages();
         foreach(GameObject item in items)
         {
             Image sprite = itemSprites[items.IndexOf(item)];
+            sprite.enabled = true;
 
             Item itemScript = item.GetComponent<ItemController>().item;
             sprite.sprite = itemScript.itemSprite;
