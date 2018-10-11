@@ -28,7 +28,7 @@ public class InteractableObjectController : MonoBehaviour {
 
     private void CheckForRaycastHit()
     {
-        int groupedLayerMasks = LayerMask.GetMask("Item", "Door", "Key");
+        int groupedLayerMasks = LayerMask.GetMask("Item", "DoorOpen", "KeyUse");
 
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.TransformDirection(Vector3.forward), out hit, 5f, groupedLayerMasks))
@@ -42,14 +42,15 @@ public class InteractableObjectController : MonoBehaviour {
 
             switch (layerName)
             {
-                case "Key":
-                    // Fallthrough
+                case "KeyUse":
+                    ActivateCanvas(actionSprite);
+                    break;
                 case "Item":
                     Debug.DrawRay(cam.transform.position, cam.transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
                     CheckForPickup();
                     ActivateCanvas(actionSprite);
                     break;
-                case "Door":
+                case "DoorOpen":
                     Debug.DrawRay(cam.transform.position, cam.transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
                     OpenDoor(interactedObject);
                     ActivateCanvas(actionSprite);
@@ -109,14 +110,13 @@ public class InteractableObjectController : MonoBehaviour {
         switch (layerName)
         {
             case "Item":
-                Debug.Log("Hovering over Item");
                 spriteName = "pickup";
                 break;
-            case "Key":
+            case "KeyUse":
                 Debug.Log("Hovering over Key");
                 spriteName = "key";
                 break;
-            case "Door":
+            case "DoorOpen":
                 Debug.Log("Hovering over Door");
                 spriteName = "door";
                 break;

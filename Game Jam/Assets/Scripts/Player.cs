@@ -10,6 +10,8 @@ public class Player : MonoBehaviour {
 
     public List<GameObject> items { get; set; }
 
+    public int itemsAmount = 4;
+
 
 
 	// Use this for initialization
@@ -24,10 +26,14 @@ public class Player : MonoBehaviour {
 
     public void AddItem(GameObject item)
     {
-        if (!this.items.Contains(item))
+        if (!this.items.Contains(item) && items.Count <= itemsAmount)
         {
             this.items.Add(item);
             Debug.Log("added item : " + item.name);
+
+            ItemUIController itemUIController = GameObject.FindObjectOfType<ItemUIController>();
+            itemUIController.UpdateUI(items);
+
         }
     }
 }

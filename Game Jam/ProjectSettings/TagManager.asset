@@ -16,8 +16,8 @@ TagManager:
   - 
   - PostProcessing
   - Item
-  - Key
-  - Door
+  - KeyUse
+  - DoorOpen
   - 
   - 
   - 
