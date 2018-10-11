@@ -102,7 +102,7 @@ public class Player : MonoBehaviour {
 
         }
 
-        if(!foundRedKey && !foundGreenKey && !hasKeys && !startLookingForCodes)
+        if(!foundRedKey && !foundGreenKey && !hasKeys && startLookingForCodes)
         {
             if (hasCodeOne && !hasCodeTwo)
                 objectiveUIController.SetText("Find the Cup!");
