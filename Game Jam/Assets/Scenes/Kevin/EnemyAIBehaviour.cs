@@ -29,7 +29,9 @@ public class EnemyAIBehaviour : MonoBehaviour
     private GameObject player;
 	private Player playerCode;
 	private Transform playerTransform;
-    private int nodeCounter = 0;
+
+    public int nodeCounter = 0;
+
     private NavMeshAgent enemyAgent;
 
 	void Start()
@@ -62,17 +64,17 @@ public class EnemyAIBehaviour : MonoBehaviour
 		if (playerCode.isHidden) 
 		{
             //patrol
-			curState = FSMState.Patrol;
-
-            if (wanderPoints.Count <= 0) { throw new NullReferenceException("No wander point registered with this enemy!"); }
-            if (enemyAgent.destination == transform.position) { SetNewTarget(wanderPoints[nodeCounter].position); return; }
-            if (enemyAgent.remainingDistance <= destinationReachedThreshold) { SetNewTarget(GetNewPointFromList()); }
+			curState = FSMState.Patrol;  
         }
 		if (!playerCode.isHidden && playerInView)
 		{
 			enemyAgent.SetDestination (playerTransform.position);
 			curState = FSMState.Chase;
 		}
+
+        if (wanderPoints.Count <= 0) { throw new NullReferenceException("No wander point registered with this enemy!"); }
+        if (enemyAgent.destination == transform.position) { SetNewTarget(wanderPoints[nodeCounter].position); return; }
+        if (enemyAgent.remainingDistance <= destinationReachedThreshold) { SetNewTarget(GetNewPointFromList()); }
     }
 
     void UpdateChaseState() {
