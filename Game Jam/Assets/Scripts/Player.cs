@@ -25,6 +25,9 @@ public class Player : MonoBehaviour {
     public void AddItem(GameObject item)
     {
         if (!this.items.Contains(item))
+        {
             this.items.Add(item);
+            Debug.Log("added item : " + item.name);
+        }
     }
 }
