@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAIBehaviour : MonoBehaviour
@@ -179,6 +180,12 @@ public class EnemyAIBehaviour : MonoBehaviour
 					playerInView = false;
 				}
 			}
+		}
+	}
+
+	void OnTriggerEnter(Collider col){
+		if (col.CompareTag ("Player")) {					
+			SceneManager.LoadScene (SceneManager.GetSceneByBuildIndex (0).name);
 		}
 	}
 }
