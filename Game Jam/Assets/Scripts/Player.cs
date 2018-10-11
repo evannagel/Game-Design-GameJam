@@ -27,4 +27,15 @@ public class Player : MonoBehaviour {
         if (!this.items.Contains(item))
             this.items.Add(item);
     }
+
+	void OnTriggerEnter(Collider col){
+		if (col.CompareTag ("HidingArea")) {
+			isHidden = true;
+		}
+	}
+	void OnTriggerExit(Collider col){
+		if (col.CompareTag ("HidingArea")) {
+			isHidden = false;
+		}
+	}
 }
