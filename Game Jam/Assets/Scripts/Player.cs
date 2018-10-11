@@ -60,6 +60,23 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public bool HasItem(GameObject item)
+    {
+        return items.Contains(item);
+    }
+
+    public void RemoveItem(GameObject item)
+    {
+        if (HasItem(item))
+        {
+            this.items.Remove(item);
+            Debug.Log("removed item : " + item.name);
+
+            ItemUIController itemUIController = GameObject.FindObjectOfType<ItemUIController>();
+            itemUIController.UpdateUI(items);
+        }
+    }
+
     public void AdvanceObjective()
     {
         if (foundRedKey && !foundGreenKey && !hasKeys)
@@ -133,6 +150,4 @@ public class Player : MonoBehaviour {
 
 
     }
-    
-
 }
