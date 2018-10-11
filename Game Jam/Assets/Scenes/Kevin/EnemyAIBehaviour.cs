@@ -145,19 +145,17 @@ public class EnemyAIBehaviour : MonoBehaviour
 	void CanSeePlayer(){
 		toPlayer = playerTransform.position - transform.position;
 		float angleToPlayer = (Vector3.Angle (transform.forward, toPlayer));
-		Debug.Log ("CanSeePlayer()");
 		//ex: -90 and 90 = 180 degrees field of view. Human FOV is 114.(-57, 57)
 		if (angleToPlayer >= minAngle && angleToPlayer <= maxAngle) {
-			Debug.Log ("In angle");
 			Ray enemyToPlayerRay = new Ray (transform.position, toPlayer);
 			float rayRange = 10f;
 			Debug.DrawRay (enemyToPlayerRay.origin, enemyToPlayerRay.direction*rayRange, Color.blue);
 			RaycastHit hit;
 			if(Physics.Raycast(enemyToPlayerRay, out hit, rayRange)){
-				Debug.Log ("hit something");
-				Debug.Log (hit.rigidbody.tag);
-				if(hit.collider.CompareTag("Player")){					
+				if (hit.rigidbody.CompareTag ("Player")) {					
 					playerInView = true;
+				} else {
+					playerInView = false;
 				}
 			}
 		}
