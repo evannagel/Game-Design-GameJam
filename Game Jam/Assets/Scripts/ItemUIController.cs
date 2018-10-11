@@ -35,8 +35,6 @@ public class ItemUIController : MonoBehaviour {
 
             Item itemScript = item.GetComponent<ItemController>().item;
             sprite.sprite = itemScript.itemSprite;
-
-            Debug.Log(sprite.sprite + " - " + item.name);
         }
     }
 }
