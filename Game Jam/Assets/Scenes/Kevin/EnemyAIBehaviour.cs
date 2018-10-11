@@ -40,6 +40,8 @@ public class EnemyAIBehaviour : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
+        if (Application.isEditor) { DrawRoute(); }
+
 		switch (curState) 
 		{
 		case FSMState.Patrol:
@@ -80,8 +82,8 @@ public class EnemyAIBehaviour : MonoBehaviour
     private Vector3 GetNewPointFromList()
     {
         nodeCounter++;
-        if (nodeCounter > wanderPoints.Count) { nodeCounter = 0; }
-       return wanderPoints[nodeCounter].position;
+        if (nodeCounter >= wanderPoints.Count) { nodeCounter = 0; }
+        return wanderPoints[nodeCounter].position;
     }
 
     /// <summary>
@@ -96,6 +98,24 @@ public class EnemyAIBehaviour : MonoBehaviour
         {
             wanderPoints.RemoveAt(nodeCounter);
             SetNewTarget(GetNewPointFromList());
+        }
+    }
+
+    /// <summary>
+    /// Draws the route the player will traverse
+    /// </summary>
+    private void DrawRoute()
+    {
+        for(int i = 0; i < wanderPoints.Count; i++)
+        {
+            if(i == wanderPoints.Count - 1)
+            {
+                Debug.DrawLine(wanderPoints[i].position, wanderPoints[0].position, Color.cyan);
+            }
+            else
+            {
+                Debug.DrawLine(wanderPoints[i].position, wanderPoints[i + 1].position, Color.cyan);
+            }
         }
     }
 
