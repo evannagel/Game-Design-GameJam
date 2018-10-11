@@ -13,6 +13,7 @@ public class EndController : MonoBehaviour {
         {
             if (!player.HasItem(requiredObject))
             {
+                Debug.Log("Cannot");
                 isComplete = false;
                 break;
             }

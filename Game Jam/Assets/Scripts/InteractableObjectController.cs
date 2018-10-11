@@ -28,7 +28,7 @@ public class InteractableObjectController : MonoBehaviour {
 
     private void CheckForRaycastHit()
     {
-        int groupedLayerMasks = LayerMask.GetMask("Item", "DoorOpen", "KeyUse", "Trade");
+        int groupedLayerMasks = LayerMask.GetMask("Item", "DoorOpen", "KeyUse", "Trade", "End");
 
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.TransformDirection(Vector3.forward), out hit, 5f, groupedLayerMasks))
